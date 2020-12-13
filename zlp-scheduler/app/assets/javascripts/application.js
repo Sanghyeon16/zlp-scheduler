@@ -16,3 +16,24 @@
 //= require jquery-ui/sortable
 //= require turbolinks
 //= require_tree .
+
+setTimeout(function() {
+    $('#notice').fadeOut('fast');
+}, 1500);
+
+setTimeout(function() {
+    $('#warning').fadeOut('fast');
+}, 1500);
+
+function changeHeight(id) {
+    var string = "customDropDownDiv_";
+    var result = string.concat(id);
+    console.log(result)
+    if (document.getElementById(result).style.height == "350px") {
+        document.getElementById(result).style.height = "40px"
+    }
+    else {
+        document.getElementById(result).style.height = "350px"
+    }
+
+}

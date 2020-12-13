@@ -1,16 +1,15 @@
-
-%div{:class => 'add_sched_info'}
+%div#newTermDiv
+    %h1{:style => "text-align:center"} Activate a new Term
     %br 
     %br
+    = javascript_include_tag 'application'
     = form_for @term do |f|
-        %label{:for => "term_name"} Term:
-        = f.collection_select :name, Term.all, :id, :name
-        
-        %p Cohorts in term (hold control to select multiple):
+        %label#cohortLabel{:for => "term_name"} Term:
+        = f.collection_select :name, Term.all, :id, :name, {:selected => @term.id}
+        %p#cohortLabel Cohorts in term (hold control to select multiple):
         = select_tag "Cohorts", options_for_select(@cohort_names), multiple: true, id: 'cohort_select'
         %br
         %br
-        
         = f.submit "Activate", :class => 'button_link'
         = link_to "Cancel", view_term_admin_path, :class => 'button_link'
         = link_to "Load more terms", load_terms_path, :class => 'button_link'

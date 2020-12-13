@@ -61,6 +61,6 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   
   #in development mode host is the url given by cloud9, and when on heroku put the heroku url
-  config.action_mailer.default_url_options = {:host => "https://e6e50639ce9142959ad27a142c414481.vfs.cloud9.us-east-2.amazonaws.com/"}
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
 

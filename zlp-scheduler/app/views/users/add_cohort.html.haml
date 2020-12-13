@@ -1,12 +1,13 @@
-%div{:class => "add_stud_info"}
-    %p{:id => "notice"}
-        = notice
+%div#addCohortDiv
+    = javascript_include_tag 'application'
+    // %p{:id => "notice"}
+    //     = notice
     %br
-    %h1{:style => "color:black;"} Import From Excel
-    %p{:style => "color:red;"}  Please make sure the excel sheet has the columns in the following order: First Name, Last Name, UIN, TAMU Email
-    = link_to "Example download", download_excel_example_path, :class => 'button_link', :target => "_blank"
+    %h1{:style => "color:white;" "text-align:center"} Import From Excel
+    %p{:style => "color:yellow;" "text-align:center"}  Please make sure the excel sheet has the columns in the following order: First Name, Last Name, UIN, TAMU Email
+    = link_to "Download an Example", download_excel_example_path, :class => 'button_link', :target => "_blank"
     = form_tag create_cohort_path, multipart: true do |f|
-        = label_tag "Cohort Name"
+        = label_tag 'Cohort Name:'
         = text_field_tag :name
         = file_field_tag :file
         %br 

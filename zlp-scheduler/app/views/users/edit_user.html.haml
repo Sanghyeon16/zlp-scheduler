@@ -1,21 +1,26 @@
-%div{:class => "add_sched_info"}  
+%div#editUserDiv  
+    = javascript_include_tag 'application'
     %br
     %h2 Edit #{@user.firstname} #{@user.lastname}
     = form_for @user, url: patch_user_path(@user) do |f|
-        %table{:class => "student_table"}
+        %table#userTable
             %tr
-                %th First Name
-                %th Last Name
-                %th TAMU Email
-                %th UIN
+                %th#specialTableHeader First Name
+                %th#specialTableHeader Last Name
+                %th#specialTableHeader TAMU Email
+                %th#specialTableHeader UIN
             %tr
-                %th
+                %td#specialTableData
                     = f.text_field :firstname, :value => @user.firstname
-                %th
+                %td#specialTableData
                     = f.text_field :lastname, :value => @user.lastname
-                %th
-                    = f.text_field :email, :value => @user.email
-                %th
+                %td#specialTableData
+                    = f.email_field :email, :placeholder => "Email", :pattern => ".+@tamu.edu", :title => "Only tamu email id", :size => 30, :value => @user.email
+                %td#specialTableData
                     = f.text_field :uin, :value => @user.uin
+        %br
         = f.submit "Update", :class => 'button_link'
-        = link_to "Cancel", manage_cohorts_path, :class => 'button_link'
+        - if @user.admin?
+            = link_to "Cancel", manage_administrators_path, :class => 'button_link'
+        - else
+            = link_to "Cancel", manage_cohorts_path, :class => 'button_link'

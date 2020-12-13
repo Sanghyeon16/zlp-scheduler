@@ -1,81 +1,80 @@
-
-%div{:class => "add_sched_info"}  
-    %br
-    %h2 Add Schedule for #{@term.name}
+%div#addScheduleDiv 
+    %h1#addScheduleHeader{:style => "text-align:center"} Add Schedule for #{@term.name}
     = form_for @schedule do |f|
-        = f.label :name, "Schedule Name:"
+        = f.label:name, "Schedule Name:", :id => 'whiteLabel'
         = f.text_field :name
-        %table{:class => "sched_table"}
+        %table#studentScheduleTable
             %tr
-                %th Dept.
-                %th Course Num.
-                %th Section
-                %th{:class => 'tooltip'} 
+                %th#specialTableHeader Dept.
+                %th#specialTableHeader Course Num.
+                %th#specialTableHeader Section
+                %th#specialTableHeader{:class => 'tooltip'} 
                     Mandatory
-                    %span{:class => 'tooltiptext'}Check if you MUST take the course THIS semester to be on track for graduation.
+                    %span{:id => 'viewScheduleToolTip'}Check if you MUST take the course THIS semester to be on track for graduation.
             %tr{:class => "sched_table_row"}
-                %td
+                %td#specialTableData
                     = collection_select(nil, :dept_id_1,  @subjects,  :id, :subject_code, {:include_blank => true}, {:id => 'dept_select_1'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :course_num_id_1, @course_options, :id, :course_number, {:include_blank => true}, {:id => 'course_num_select_1'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :section_num_id_1, @section_options, :id, :section_number, {:include_blank => true}, {:id => 'section_num_select_1'})
-                %td
+                %td#specialTableData
                     = check_box_tag :mand_1
             %tr{:class => "sched_table_row"}
-                %td
+                %td#specialTableData
                     = collection_select(nil, :dept_id_2,  @subjects,  :id, :subject_code, {:include_blank => true}, {:id => 'dept_select_2'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :course_num_id_2, @course_options, :id, :course_number, {:include_blank => true}, {:id => 'course_num_select_2'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :section_num_id_2, @section_options, :id, :section_number, {:include_blank => true}, {:id => 'section_num_select_2'})
-                %td
+                %td#specialTableData
                     = check_box_tag :mand_2
             %tr{:class => "sched_table_row"}
-                %td
+                %td#specialTableData
                     = collection_select(nil, :dept_id_3,  @subjects,  :id, :subject_code, {:include_blank => true}, {:id => 'dept_select_3'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :course_num_id_3, @course_options, :id, :course_number, {:include_blank => true}, {:id => 'course_num_select_3'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :section_num_id_3, @section_options, :id, :section_number, {:include_blank => true}, {:id => 'section_num_select_3'})
-                %td
+                %td#specialTableData
                     = check_box_tag :mand_3
             %tr{:class => "sched_table_row"}
-                %td
+                %td#specialTableData
                     = collection_select(nil, :dept_id_4,  @subjects,  :id, :subject_code, {:include_blank => true}, {:id => 'dept_select_4'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :course_num_id_4, @course_options, :id, :course_number, {:include_blank => true}, {:id => 'course_num_select_4'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :section_num_id_4, @section_options, :id, :section_number, {:include_blank => true}, {:id => 'section_num_select_4'})
-                %td
+                %td#specialTableData
                     = check_box_tag :mand_4
             %tr{:class => "sched_table_row"}
-                %td
+                %td#specialTableData
                     = collection_select(nil, :dept_id_5,  @subjects,  :id, :subject_code, {:include_blank => true}, {:id => 'dept_select_5'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :course_num_id_5, @course_options, :id, :course_number, {:include_blank => true}, {:id => 'course_num_select_5'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :section_num_id_5, @section_options, :id, :section_number, {:include_blank => true}, {:id => 'section_num_select_5'})
-                %td
+                %td#specialTableData
                     = check_box_tag :mand_5
             %tr{:class => "sched_table_row"}
-                %td
+                %td#specialTableData
                     = collection_select(nil, :dept_id_6,  @subjects,  :id, :subject_code, {:include_blank => true}, {:id => 'dept_select_6'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :course_num_id_6, @course_options, :id, :course_number, {:include_blank => true}, {:id => 'course_num_select_6'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :section_num_id_6, @section_options, :id, :section_number, {:include_blank => true}, {:id => 'section_num_select_6'})
-                %td
+                %td#specialTableData
                     = check_box_tag :mand_6
             %tr{:class => "sched_table_row"}
-                %td
+                %td#specialTableData
                     = collection_select(nil, :dept_id_7,  @subjects,  :id, :subject_code, {:include_blank => true}, {:id => 'dept_select_7'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :course_num_id_7, @course_options, :id, :course_number, {:include_blank => true}, {:id => 'course_num_select_7'})
-                %td
+                %td#specialTableData
                     = collection_select(nil, :section_num_id_7, @section_options, :id, :section_number, {:include_blank => true}, {:id => 'section_num_select_7'})
-                %td
+                %td#specialTableData
                     = check_box_tag :mand_7
+        %br
         = f.submit "Save Schedule", :class => 'button_link'
         = link_to "Cancel", view_terms_path, :class => 'button_link'
     

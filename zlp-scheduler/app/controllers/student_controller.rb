@@ -1,11 +1,31 @@
 class StudentController < ApplicationController
   
    before_action :require_student, only: [:view_terms, :add_schedule, :update_courses, :update_sections, :create_schedule, :view_schedule,:delete_schedule]  
+
+  def in_open_term?
+    cohort = Cohort.find(@user.cohort_id)
+    if !@term.opendate
+      return false
+    end
+    return DateTime.current >= @term.opendate && DateTime.current < @term.closedate && cohort.term_id == @term.id
+  end
   
   def view_terms
     id = session[:user_id]
     @user = User.find(id)
     @term = Term.find_by active: 1;
+    cohort = Cohort.find(@user.cohort_id)
+    date_dict = { "M" => "Monday", "T" => "Tuesday", "W" => "Wednesday", "TR" => "Thursday", "F" => "Friday"}
+    if cohort.chosen_time.present?
+      chosen_timeslot = TimeSlot.find(cohort.chosen_time)
+      chosen_time_start = chosen_timeslot.time
+      chosen_time_end = chosen_time_start.advance(:hours => 2)
+      @chosen_time = chosen_time_start.strftime("%H:%M") + " - " + chosen_time_end.strftime("%H:%M") + " " + date_dict[chosen_timeslot.day]
+    end
+    
+    if not in_open_term?
+      redirect_to closed_path and return
+    end
     if @user.schedules
       @schedules = @user.schedules
     else 
@@ -40,7 +60,7 @@ class StudentController < ApplicationController
       subj = Subject.find(params[:dept_id])
       # map to name and id for use in our options_for_select
       @term = Term.find_by active: 1;
-      @courses = Course.where(:abbreviated_subject => subj.subject_code, :term_id => @term.id)
+      @courses = Course.where(:abbreviated_subject => subj.subject_code, :term_id => @term.id).order(course_number: :asc)
       @course_options = [];
       @courses.each do |c|
         @course_options.push(c.course_number)
@@ -60,7 +80,7 @@ class StudentController < ApplicationController
       course_num = params[:course_num_id]
       # map to name and id for use in our options_for_select
       @term = Term.find_by active: 1;
-      @sections = Course.where(:abbreviated_subject => subj.subject_code, :course_number => course_num, :term_id => @term.id)
+      @sections = Course.where(:abbreviated_subject => subj.subject_code, :course_number => course_num, :term_id => @term.id).order(section_number: :asc)
       @section_options = [];
       @sections.each do |c|
         @section_options.push(c.section_number)
@@ -82,12 +102,18 @@ class StudentController < ApplicationController
       @schedule = Schedule.new
       @schedule.update_attributes(:name => params[:schedule][:name])
       @user.schedules.push(@schedule)
+      warning_word = ""
       7.times do |n|
         subj_symb = "dept_id_#{n+1}".to_sym
         number_symb = "course_num_id_#{n+1}".to_sym
         section_symb = "section_num_id_#{n+1}".to_sym
         check_symb = "mand_#{n+1}".to_sym
-        if !(params[section_symb] == "")
+        
+        if (params[subj_symb] != "" and params[number_symb] == "") or (params[subj_symb] != "" and params[section_symb] == "")
+          warning_word = " Courses without course number or section number will not be added in the schedule!"
+        end
+        
+        if params[subj_symb] != "" and params[number_symb]!= "" and params[section_symb]!=""
           subj = Subject.find(params[subj_symb]).subject_code
           @course = Course.where(:abbreviated_subject => subj, :course_number => params[number_symb], :section_number => params[section_symb], :term_id => @term.id)
           @schedule.courses.push(@course)
@@ -98,7 +124,7 @@ class StudentController < ApplicationController
           end
         end
       end
-      flash[:notice] = 'Schedule added!'
+      flash[:notice] = 'Schedule added!' + warning_word
       redirect_to view_terms_path
     end
   end

@@ -1,29 +1,31 @@
-%h1 Manage Cohorts
-%div{:class => "cohort_frame"}
+%div#manageCohortDiv
+    = javascript_include_tag 'application'
+    %h1{:style => "text-align:center"} Manage Cohorts
     - @cohorts.each do |c|
-        %div{:class => "custom_drop_down"}
+        // %div#customDropDownDiv
+        %div{:id => "customDropDownDiv_#{c.id}"}
             - id = c.id
-            %input{:type => "checkbox", :id => id}
-            %label{:for => id} #{c.name}
-            = link_to 'Delete', delete_cohort_path(c), method: :delete, data: {confirm: 'Are you sure?'}, :class => 'right_button_link'
-            %table{:class => "student_table"}
+            %input{:type => "checkbox", :id => id, :onchange => "changeHeight(this.id)"}
+            %label#manageCohortLabel{:for => id} #{c.name}
+            = link_to 'Delete Current Cohort', delete_cohort_path(c), method: :delete, data: {confirm: 'Are you sure?'}, :id => 'rightButtonCohort'
+            %table#resultTable
                 %tr
-                    %th First Name
-                    %th Last Name
-                    %th TAMU Email
-                    %th UIN
-                    %th
-                    %th
+                    %th#specialTableHeader First Name
+                    %th#specialTableHeader Last Name
+                    %th#specialTableHeader TAMU Email
+                    %th#specialTableHeader UIN
+                    %th#specialTableHeader Option
+                    %th#specialTableHeader Option
                 - c.users.each do |user|
                     %tr
-                        %td #{user.firstname}
-                        %td #{user.lastname}
-                        %td #{user.email}
-                        %td #{user.uin}
-                        %td 
+                        %td#specialTableData #{user.firstname}
+                        %td#specialTableData #{user.lastname}
+                        %td#specialTableData #{user.email}
+                        %td#specialTableData #{user.uin}
+                        %td#specialTableData 
                             = link_to "Edit", edit_user_path(user), :class => 'button_link'
-                        %td 
-                            = link_to 'Delete', delete_user_path(user), method: :delete, data: {confirm: 'Are you sure?'}, :class => 'right_button_link'
+                        %td#specialTableData
+                            = link_to 'Delete', delete_user_path(user), method: :delete, data: {confirm: 'Are you sure?'}, :id => 'deleteStudentButton'
 
 %div{:class => 'centered_links'}   
     //****Change later

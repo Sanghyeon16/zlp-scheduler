@@ -1,18 +1,25 @@
-%div{:class => 'add_sched_info'}
-    %br
-    %h2 #{@cohort.name}
-    %table{:class => "cohort_table"}
-        %tr
-            %th Name
-            %th Schedules Added
-        - @users.each do |user|
+%div#viewCohortDiv
+    %h1{:style => "text-align:center"} #{@cohort.name}
+    
+    - if @chosen_time.present?
+        %p#chosenTime The meeting time for this term is #{@chosen_time}
+    
+    %div#tableWrapper
+        %table#resultTable
             %tr
-                %td #{user.firstname} #{user.lastname}
-                %td 
-                    - if (user.schedules != [])
-                        Yes
-                    - else
-                        No
-%div{:class => 'centered_links'}
-    = link_to "Find Class Time", "", :class => 'button_link'
+                %th#specialTableHeader Name
+                %th#specialTableHeader Schedules Added
+            - @users.each do |user|
+                %tr
+                    %td#specialTableData #{user.firstname} #{user.lastname}
+                    %td#specialTableData
+                        - if (user.schedules != [])
+                            Yes
+                        - else
+                            No
+                            
+    -if @cohort.time_slots.present?
+        = link_to "Find Class Time" , view_result_path(@cohort.id), :class => 'button_link'
+        
+    = link_to "Run Algorithm" , run_algorithm_path(@cohort.id), :class => 'button_link', method: :post, :data => {disable_with: "<i>The algorithm is running...</i>"}
     = link_to "Back to Home", view_term_admin_path, :class => 'button_link'

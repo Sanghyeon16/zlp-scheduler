@@ -91,7 +91,7 @@ Rails.application.configure do
   config.action_mailer.default :charset => "utf-8"
   #send emails in production?
   config.action_mailer.perform_deliveries = true
-  
-  #host needs to be chnaged when on heroku put the heroku url
-  config.action_mailer.default_url_options = {:host => "https://e6e50639ce9142959ad27a142c414481.vfs.cloud9.us-east-2.amazonaws.com/"}
+
+  # host needs to be chnaged when on heroku put the heroku url
+  config.action_mailer.default_url_options = { host: ENV['HEROKU_URL'] }
 end

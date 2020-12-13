@@ -2,7 +2,8 @@ class CreateCoursesAndTerms < ActiveRecord::Migration[5.0]
   def change
     create_table :terms do |t|
       t.string :name
-      
+      t.datetime :opendate
+      t.datetime :closedate
       t.timestamps
     end
     

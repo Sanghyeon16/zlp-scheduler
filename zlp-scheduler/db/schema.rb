@@ -10,100 +10,118 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200501194224) do
+ActiveRecord::Schema.define(version: 2020_11_23_044850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "adminstudrecs", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "uin"
-    t.string   "email"
-    t.string   "classcode"
-    t.string   "major"
+  create_table "cohorts", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "term_id"
+    t.integer "time_slots_id"
+    t.integer "chosen_time"
+    t.index ["time_slots_id"], name: "index_cohorts_on_time_slots_id"
   end
 
-  create_table "cohorts", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "term_id"
+  create_table "conflicts", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "cost"
+    t.integer "course_id"
+    t.integer "schedule_id"
+    t.integer "time_slot_id"
+    t.index ["course_id"], name: "index_conflicts_on_course_id"
+    t.index ["schedule_id"], name: "index_conflicts_on_schedule_id"
+    t.index ["time_slot_id"], name: "index_conflicts_on_time_slot_id"
+    t.index ["user_id"], name: "index_conflicts_on_user_id"
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string   "full_subject"
-    t.string   "abbreviated_subject"
-    t.string   "course_name"
-    t.integer  "course_number"
-    t.integer  "section_number"
+    t.string "full_subject"
+    t.string "abbreviated_subject"
+    t.string "course_name"
+    t.integer "course_number"
+    t.integer "section_number"
     t.datetime "meetingtime_start"
     t.datetime "meetingtime_end"
-    t.string   "meeting_days",                     array: true
-    t.string   "instructors",                      array: true
-    t.string   "meeting_location"
-    t.integer  "term_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.integer  "subject_id"
+    t.string "meeting_days", array: true
+    t.string "instructors", array: true
+    t.string "meeting_location"
+    t.integer "term_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "subject_id"
     t.index ["instructors"], name: "index_courses_on_instructors", using: :gin
     t.index ["meeting_days"], name: "index_courses_on_meeting_days", using: :gin
-    t.index ["subject_id"], name: "index_courses_on_subject_id", using: :btree
-    t.index ["term_id"], name: "index_courses_on_term_id", using: :btree
+    t.index ["subject_id"], name: "index_courses_on_subject_id"
+    t.index ["term_id"], name: "index_courses_on_term_id"
   end
 
   create_table "schedule_to_courses", force: :cascade do |t|
-    t.integer  "schedule_id"
-    t.integer  "course_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.boolean  "mandatory"
-    t.index ["course_id"], name: "index_schedule_to_courses_on_course_id", using: :btree
-    t.index ["schedule_id"], name: "index_schedule_to_courses_on_schedule_id", using: :btree
+    t.integer "schedule_id"
+    t.integer "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "mandatory", default: false
+    t.index ["course_id"], name: "index_schedule_to_courses_on_course_id"
+    t.index ["schedule_id"], name: "index_schedule_to_courses_on_schedule_id"
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "user_id"
+    t.string "name"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_schedules_on_user_id", using: :btree
+    t.index ["user_id"], name: "index_schedules_on_user_id"
   end
 
   create_table "subjects", force: :cascade do |t|
-    t.string   "subject_code"
-    t.string   "subject_description"
-    t.integer  "term_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.index ["term_id"], name: "index_subjects_on_term_id", using: :btree
+    t.string "subject_code"
+    t.string "subject_description"
+    t.integer "term_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["term_id"], name: "index_subjects_on_term_id"
   end
 
   create_table "terms", force: :cascade do |t|
-    t.string   "name"
+    t.string "name"
     t.datetime "opendate"
     t.datetime "closedate"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.string   "term_code"
-    t.boolean  "active",                  default: false
-    t.boolean  "courses_import_complete", default: false
-    t.index ["term_code"], name: "index_terms_on_term_code", unique: true, using: :btree
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "term_code"
+    t.boolean "active", default: false
+    t.boolean "courses_import_complete", default: false
+    t.index ["term_code"], name: "index_terms_on_term_code", unique: true
+  end
+
+  create_table "time_slots", force: :cascade do |t|
+    t.datetime "time"
+    t.integer "cost"
+    t.boolean "was_conflict"
+    t.integer "cohort_id"
+    t.string "day"
+    t.integer "conflicts_id"
+    t.index ["cohort_id"], name: "index_time_slots_on_cohort_id"
+    t.index ["conflicts_id"], name: "index_time_slots_on_conflicts_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer  "uin"
-    t.string   "lastname",               null: false
-    t.string   "firstname",              null: false
-    t.string   "email",                  null: false
-    t.string   "password_digest"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "role"
-    t.string   "password_reset_token"
+    t.integer "uin"
+    t.string "lastname", null: false
+    t.string "firstname", null: false
+    t.string "email", null: false
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "role"
+    t.string "password_reset_token"
     t.datetime "password_reset_sent_at"
-    t.integer  "cohort_id"
+    t.datetime "password_expires_after"
+    t.integer "cohort_id"
+    t.boolean "activate", default: true
   end
 
   add_foreign_key "courses", "subjects"

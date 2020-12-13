@@ -35,6 +35,7 @@ class Course < ApplicationRecord
   
   def self.ImportCourses!(term, subject)
     courses_json = CourseScraper.get_courses(term.term_code, subject.subject_code)
+    all_courses = []
     courses_json.each do |course_json|
       c = Course.new
       c.full_subject = course_json['subject_description']
@@ -71,8 +72,12 @@ class Course < ApplicationRecord
       c.meeting_location = nil
       c.subject_id = subject.id
       c.term_id = term.id
-      c.save
+      
+      
+      all_courses.append(c)
+      
     end
+    all_courses.each(&:save)
   end
   
   def ==(comparison_object)

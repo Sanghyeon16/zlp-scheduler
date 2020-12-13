@@ -1,22 +1,22 @@
-%div{:class => "add_sched_info"}  
-    %br
-    %h2 #{@schedule.name}
-    %table{:class => "sched_table"}
+%div#viewScheduleDiv
+    %h1{:style => "text-align:center"} #{@schedule.name}
+    %table#studentScheduleTable
         %tr
-            %th Dept.
-            %th Course Num.
-            %th Section
-            %th{:class => 'tooltip'} 
+            %th#specialTableHeader Dept.
+            %th#specialTableHeader Course Num.
+            %th#specialTableHeader Section
+            %th#specialTableHeader{:class => 'tooltip'} 
                 Mandatory
-                %span{:class => 'tooltiptext'}Check if you MUST take the course THIS semester to be on track for graduation.
+                %span{:id => 'viewScheduleToolTip'} You may add up to three schedules for this term. Please add them in the order of preference (first schedule added is the highest preferred)
         - @courses.each do |course|
             %tr{:class => "sched_table_row"}
-                %td #{course.abbreviated_subject}
-                %td #{course.course_number}
-                %td #{course.section_number}
-                %td 
+                %td#specialTableData #{course.abbreviated_subject}
+                %td#specialTableData #{course.course_number}
+                %td#specialTableData #{course.section_number}
+                %td#specialTableData
                     - if (@associations.find_by course_id: course.id).mandatory == true
                         Yes
                     - else
                         No
+    %br
     = link_to "Back to Home", view_terms_path, :class => 'button_link'

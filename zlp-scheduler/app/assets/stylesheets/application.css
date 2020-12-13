@@ -16,26 +16,37 @@
  
 body{
 	background-color: #500000;
+	/*can be overwrite with font-family*/
+	font: normal 15px serif;
+	/*color: white;*/
 }
 
 .header{
-  width: 350px;
-  height: 90px;
+    width: 350px;
+    height: 90px;
 }
 
 .header_div {
     padding: 0 1em;
 }
 
+.menubar_div {
+    position: relative;
+    top: 30px;
+}
+
 .header h1 {
-  position: relative;
-  top: 18px;
-  left: 10px;
+    position: relative;
+    top: 18px;
+    left: 10px;
 }
 
 h1 {
     color: white;
-    margin-left: 2%;
+}
+
+h2 {
+    color: white
 }
 
 p1 {
@@ -44,22 +55,8 @@ p1 {
     font-size: 15px;
 }
 
-.notice {
-  padding: 20px;
-  background-color: green; /* Red */
-  color: white;
-  margin-bottom: 15px;
-}
-
-.warning {
-  padding: 20px;
-  background-color: red;
-  color: white;
-  margin-bottom: 15px;
-}
-
 .button_link {
-    color: #500000;
+    color: white;
     text-decoration: none;
     padding: 0 1em;
     text-align: center;
@@ -74,7 +71,7 @@ p1 {
 }
 
 .right_button_link {
-    color: #500000;
+    color: white;
     text-decoration: none;
     line-height: 40px;
     float: right;
@@ -88,6 +85,7 @@ p1 {
     float: right;
 	font-size: large; 
 	padding-right: 30px;
+	font-family: serif;
 	color: white;
 }
 
@@ -103,33 +101,29 @@ p1 {
 }
 
 /*Tooltip setup*/
-
 .tooltip{
-  position:relative;
-  text-decoration: underline;
-  color: #500000;
+    position:relative;
+    text-decoration: underline;
 }
-
 
 .tooltiptext{
-  display:none;
-  position:absolute; 
-  z-index:10;
-  border:1px;
-  border-style:solid;
-  border-width:1px;
-  padding:3px;
-  top: -5px;
-  left: 105%;
-  width: 80%;
+    display:none;
+    position:absolute; 
+    z-index:10;
+    border:1px;
+    border-style:solid;
+    border-width:1px;
+    padding:3px;
+    top: -3px;
+    left: 105%;
+    width: 40%;
 }
 
-.tooltip:hover span.tooltiptext{
-  display:block;
+.tooltip:hover span.tooltiptext {
+    display:block;
 }
 
 /*CSS for drop-down terms on students and admin page */
-
 .term_frame {
     width:70%;
     margin: auto;
@@ -165,21 +159,8 @@ p1 {
     margin-bottom: 15px;
 }
 
-.custom_drop_down table, .custom_drop_down input[type="checkbox"] {
-    display: none;
-}
-
-.custom_drop_down input:checked ~ table {
-    display: table;
-}
-
-.custom_drop_down{
-    background-image: linear-gradient(#FFD5C2, white);
-    line-height: 40px;
-}
 
 /*stylers for add_schedule page*/
-
 .add_sched_info {
     height: 500px;
     width: 70%;
@@ -204,6 +185,18 @@ label, input[type ='text'] {
     margin-top: 30px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+
+/* Disable arrows in number field of UIN */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }
 
 [id^="dept_select"], [id^="course_num_select"], [id^="section_num_select"] {
@@ -250,15 +243,14 @@ label, input[type ='text'] {
 .linktotextcolor { color: #fff; }
 
 .btn-submit {
-  color: #FFFFFF;
-  font-size: 14px;
-  text-transform: uppercase;
-  background: #500000;
-  padding: 10px 20px;
-  border: 0;
-  margin-top: 6px;
+    color: #FFFFFF;
+    font-size: 14px;
+    text-transform: uppercase;
+    background: #500000;
+    padding: 10px 20px;
+    border: 0;
+    margin-top: 6px;
 }
-
 
 .Register_Form{
 	text-align: center;
@@ -266,11 +258,26 @@ label, input[type ='text'] {
 	margin-top:50px;	
 	width:500px;
 	background-color: rgba(255,255,255, 1);
-	padding-bottom:20px;
+	padding-bottom:60px;
 	padding-top:2px;
-	padding-left: 6px;
+	padding-left: 15px;
 	border-radius: 18px;
-	box-shadow: 5px 5px 5px #888888;
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.Register_Form ul {
+    text-align: left;
+}
+
+.Register_Form .form_label {
+    display: block;
+    margin: 10px auto;
+}
+
+.Register_Form .form_input {
+    display: block;
+    margin: auto;
+    margin-bottom: 15px;
 }
 
 .Input_Large{
@@ -291,5 +298,348 @@ label, input[type ='text'] {
 
 select {
     min-width: 100px;
+}
+
+/*revamp UI*/
+#whiteLabel {
+    color: white
+}
+
+#notice {
+    background-color: green;
+    color: white;
+    font-family: serif;
+    font-size: 15px;
+    text-align: center;
+    padding: 5px;
+}
+
+#warning {
+    background-color: red;
+    color: white;
+    padding: 5px
+}
+
+/*admin/view_term_admin*/
+#adminMenuBar {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    background-color: #4BA12F;
+}
+
+#adminMenuBarOption {
+  float: left;
+}
+
+#adminMenuBarOption a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+#adminMenuBarOption a:hover {
+  color: #500000;
+  background-color: #5F94B2;
+}
+
+#welcomeUser {
+    position: relative;
+    padding-top: 20px;
+}
+
+/*admin/open_semester*/
+#openSemesterDiv {
+    padding: 30px 0;
+    text-align: center;
+    color: white
+}
+
+/*admin/new_term*/
+#newTermDiv {
+    padding: 30px 0;
+    text-align: center
+}
+
+#cohortLabel {
+    text-align: center;
+    font-family: serif;
+    font-size: 15px;
+    color: white
+}
+
+#cohort_select {
+    width: 30%;
+    text-align: center;
+    font-family: serif;
+    font-size: 15px
+}
+
+/*admin/manage_cohort*/
+#manageCohortDiv {
+    padding: 30px 0;
+    text-align: center
+}
+
+[id*="customDropDownDiv"] table, [id*="customDropDownDiv"] input[type="checkbox"] {
+    display: none;
+}
+
+[id*="customDropDownDiv"] input:checked ~ table {
+    display: table;
+}
+
+[id*="customDropDownDiv"] {
+    position:relative;
+    background-color: #4BA12F;
+    line-height: 40px;
+    overflow-y: auto;
+    height: 40px
+}
+
+#manageCohortLabel {
+    color: white
+}
+
+#manageCohortLabel:hover {
+    text-decoration: underline;
+}
+
+#rightButtonCohort {
+    color: white;
+    line-height: 40px;
+    float: right;
+    margin-right: 2%;
+    font-family: serif;
+    font-size: 15px;
+}
+
+#rightButtonCohort:hover {
+    text-decoration: underline
+}
+
+#deleteStudentButton {
+    color: white
+}
+
+#deleteStudentButton:hover {
+    text-decoration: underline
+}
+
+/*admin/add_cohort*/
+#addCohortDiv {
+    padding: 30px 0;
+    text-align: center;
+    color: white
+}
+
+#file {
+    color: white
+}
+
+/*admin/edit_user*/
+#editUserDiv {
+    padding: 30px 0;
+    text-align: center;
+}
+
+/*admin/manage_admininstrator*/
+#manageAdministratorDiv {
+    padding: 30px 0;
+    text-align: center
+}
+
+#deleteAdminButton {
+    color: white
+}
+
+#deleteAdminButton:hover {
+    text-decoration: underline
+}
+
+/*admin/add_admin*/
+#addAdminDiv {
+    padding: 30px 0;
+    text-align: center
+}
+
+/*admin/view_cohort*/
+#viewCohortDiv {
+    padding: 30px 0;
+    text-align: center 
+}
+
+#chosenTime {
+    color: yellow;
+    text-align: center;
+    font-family: serif;
+    font-size: 20px
+}
+
+/*student/view_terms*/
+#studentViewTermsDiv {
+    text-align: center 
+}
+
+#studentViewTermsMenuBarDiv {
+    position: relative;
+    top: 30px
+}
+
+#studentMenuBar {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    background-color: #4BA12F;
+}
+
+#studentMenuBarOption {
+  float: left
+}
+
+#studentMenuBarOption a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none
+}
+
+#studentMenuBarOption a:hover {
+  color: #500000;
+  background-color: #5F94B2
+}
+
+/*student/view_schedule*/
+#viewScheduleDiv {
+    padding: 30px 0;
+    text-align: center 
+}
+
+#viewScheduleToolTip {
+    display:none;
+    position:absolute; 
+    z-index:10;
+    border:1px;
+    border-style:solid;
+    border-width:1px;
+    padding:3px;
+    top: -3px;
+    left: 105%;
+    width: 80%;
+}
+
+.tooltip:hover #viewScheduleToolTip {
+    display:block;
+}
+
+/*student/add_schedule*/
+#addScheduleDiv {
+    text-align: center  
+}
+
+#addScheduleHeader {
+    padding-bottom: 0px
+}
+
+/* result and conflict table css file */
+#tableWrapper {
+  overflow-y: auto; 
+  height: 350px;   
+}
+
+#resultTable, #conflictTable, #userTable, #adminTable, #termTable, #studentTermTable, #studentScheduleTable {
+  width: 100%;
+  height: 50%;
+  position: relative;
+  table-layout: fixed;
+  border: 1px solid white;
+  overflow-y: auto; 
+}
+
+#termTable, #studentTermTable, #studentScheduleTable {
+  width: 50%;
+  height: 50%;
+  position: relative;
+  table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid white;
+  overflow-y: auto; 
+}
+
+#specialTableHeader {
+  height: 40px;
+  border: 1px solid white;
+  font-size: 15px;
+  text-align: center;
+  color: white;
+  background-color: green;
+  position: sticky;
+  top: 0;
+}
+
+#specialTableData {
+  height: 40px;
+  border: 1px solid white;
+  font-size: 15px;
+  text-align: center;
+  color: white;
+  font-family: serif;
+  background-color: #500000
+}
+
+#resultTable tr:hover td, #conflictTable tr:hover td, #termTable tr:hover td, #adminTable tr:hover td, #studentScheduleTable tr:hover td{
+  background-color: rgb(51, 49, 190)
+}
+
+#resultTable tb {
+  height: 50%;
+  overflow-y: auto; 
+}
+
+
+h3 {
+  position: relative;
+  color: #ffffff
+}
+
+.detailbtn {
+  background-color: transparent;
+  border: white;
+  color: black;
+  text-align: center;
+}
+
+.choosebtn {
+  background-color: transparent;
+  border: white;
+  color: black;
+  text-align: center;
+}
+
+
+.backbtn {
+  position:relative;
+  top: 20px;
+  float: right;
+  background-color: transparent;
+  border: white;
+  color: black;
+  text-align: center;
+}
+
+/*admin/view_conflicts*/
+.specialBack {
+    position:relative;
+    top: 20px;
+    float: right;
+    background-color: transparent;
+    border: white;
+    color: white;
+    text-align: center;
+    font-size: 20px
 }
 

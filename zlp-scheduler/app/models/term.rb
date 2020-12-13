@@ -23,14 +23,31 @@ class Term < ApplicationRecord
     end
   end
   
+  def import_specific_courses(subjects_str)
+    
+    subjects = Subject.where(:subject_code => subjects_str)
+    
+    subjects.each do |subject|
+      print(subject.subject_code)
+      Course.ImportCourses!(self,subject)
+    end
+    self.courses_import_complete = true
+    self.save
+  end
+  
   # TODO: This will take awhile, it's probably best to fire it off async
   # => and periodically check `Term.courses_import_complete` to determine
   # => if it is done or not. As it stands, this call will take upwards of 10 min.
   def import_all_courses!
     self.subjects.each do |subject|
+      print(subject)
       Course.ImportCourses!(self, subject)
     end
     self.courses_import_complete = true
     self.save
   end
+  
 end
+
+
+  
